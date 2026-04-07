@@ -1,0 +1,28 @@
+resources:
+  jobs:
+    New_Job_Apr_07_2026_05_08_PM:
+      name: New Job Apr 07, 2026, 05:08 PM
+      schedule:
+        quartz_cron_expression: 35 0 13 * * ?
+        timezone_id: America/Fortaleza
+        pause_status: UNPAUSED
+      tasks:
+        - task_key: Camada_Bronze
+          notebook_task:
+            notebook_path: /Workspace/Users/rodisales23@gmail.com/Atividade_land_to_bronze.ipynb
+            source: WORKSPACE
+        - task_key: Camada_Silver
+          depends_on:
+            - task_key: Camada_Bronze
+          notebook_task:
+            notebook_path: /Workspace/Users/rodisales23@gmail.com/Atividade_bronze_to_silver.ipynb
+            source: WORKSPACE
+        - task_key: Camada_Gold
+          depends_on:
+            - task_key: Camada_Silver
+          notebook_task:
+            notebook_path: /Workspace/Users/rodisales23@gmail.com/Atividade_silver_to_gold.ipynb
+            source: WORKSPACE
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED
